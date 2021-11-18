@@ -1,9 +1,12 @@
 <div id = "registration_body">
-    <form>
+    <h1>Sign Up</h1>
+    <!--<form action="{% url 'djangoapp:registration_request' %}" method="put">-->
+    <form method="put"></form>
         <input type="text" placeholder="username" />
         <input type="password" placeholder="password" />
         <input type="email" placeholder="email" />
         <input type="first_name" placeholder="first name"/>
         <input type="last_name" placeholder="last_name"/>
+        <button class="btn btn-primary" type="submit">Sign Up</button>
     </form>
 </div>
