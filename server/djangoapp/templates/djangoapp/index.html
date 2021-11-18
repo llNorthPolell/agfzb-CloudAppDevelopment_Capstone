@@ -16,21 +16,21 @@
 
     <body>
         <!-- Header -->
-        {% include "djangoapp\header.html" %}
+        {% include "./header.html" %}
         <br/>
         <!-- Content Body-->
         {% if contentBody == "home" %}
-        {% include "djangoapp\dealer_table.html" %}
+        {% include "./dealer_table.html" %}
         {% elif contentBody == "about" %}
-        {% include "djangoapp\about.html" %}
+        {% include "./about.html" %}
         {% elif contentBody == "contact" %}
-        {% include "djangoapp\contact.html" %}
+        {% include "./contact.html" %}
         {% elif contentBody == "register" %}
-        {% include "djangoapp\registration.html" %}
+        {% include "./registration.html" %}
         {% endif %}
         <br/>
         <!-- Footer -->
-        {% include "djangoapp\footer.html" %}
+        {% include "./footer.html" %}
     </body>
 
 </html>
