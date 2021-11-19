@@ -19,15 +19,17 @@
         {% include "./header.html" %}
         <br/>
         <!-- Content Body-->
-        {% if contentBody == "home" %}
-        {% include "./dealer_table.html" %}
-        {% elif contentBody == "about" %}
-        {% include "./about.html" %}
-        {% elif contentBody == "contact" %}
-        {% include "./contact.html" %}
-        {% elif contentBody == "register" %}
-        {% include "./registration.html" %}
-        {% endif %}
+        <div id="content_body" class="container-fluid">
+            {% if contentBody == "home" %}
+            {% include "./dealer_table.html" %}
+            {% elif contentBody == "about" %}
+            {% include "./about.html" %}
+            {% elif contentBody == "contact" %}
+            {% include "./contact.html" %}
+            {% elif contentBody == "register" %}
+            {% include "./registration.html" %}
+            {% endif %}
+        </div>
         <br/>
         <!-- Footer -->
         {% include "./footer.html" %}

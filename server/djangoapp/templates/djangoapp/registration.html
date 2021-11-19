@@ -1,12 +1,30 @@
-<div id = "registration_body">
+<div id = "registration_body" class="container-fluid">
     <h1>Sign Up</h1>
-    <!--<form action="{% url 'djangoapp:registration_request' %}" method="put">-->
-    <form method="put"></form>
-        <input type="text" placeholder="username" />
-        <input type="password" placeholder="password" />
-        <input type="email" placeholder="email" />
-        <input type="first_name" placeholder="first name"/>
-        <input type="last_name" placeholder="last_name"/>
-        <button class="btn btn-primary" type="submit">Sign Up</button>
+    <form action="{% url 'djangoapp:register' %}" method="post">
+        <div class="mb-3">
+            <label for="new_username" class="form-label">Username</label>
+            <input id="new_username" type="text" placeholder="Username" class="form-control" name="username" />
+        </div>
+        <div class="mb-3">
+            <label for="new_password" class="form-label">Password</label>
+            <input id="new_password" type="password" placeholder="Password" class="form-control" name="password" />
+        </div>
+        <div class="mb-3">
+            <label for="new_email" class="form-label">Email Address</label>
+            <input id="new_email" type="email" placeholder="Email" class="form-control" name="email" />
+        </div>        
+        <div class="mb-3">
+            <label for="new_first_name" class="form-label">First Name</label>
+            <input id="new_first_name" type="text" placeholder="First Name" class="form-control" name="first_name" />
+        </div> 
+        <div class="mb-3">
+            <label for="new_last_name" class="form-label">Last Name</label>
+            <input id="new_last_name" type="text" placeholder="Last Name" class="form-control" name="last_name"  />
+        </div> 
+        <div class="mb-3">
+            {% csrf_token %}
+            <button class="btn btn-primary" type="submit">Sign Up</button>
+        </div>        
+        
     </form>
 </div>
