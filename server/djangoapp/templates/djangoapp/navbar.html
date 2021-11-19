@@ -1,13 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
     <div class="container-fluid">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link active text-light" href="{% url 'djangoapp:index' %}">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-light" href="{% url 'djangoapp:about' %}">About Us</a>
-            </li>
-        </ul>
+        <a class="navbar-brand text-primary" href="{% url 'djangoapp:index' %}">Best Car Dealerships</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="{% url 'djangoapp:about' %}">About Us</a>
+                </li>
+            </ul>
+        </div>
         <div id="nav_login" class="content-justify-end">
             <div class="row">
                 {% if user.is_authenticated %} 
