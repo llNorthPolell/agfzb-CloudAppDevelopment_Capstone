@@ -1,0 +1,82 @@
+from cloudant.client import Cloudant
+from cloudant.error import CloudantException
+from cloudant.query import Query
+import requests
+import json
+
+"""
+    Action function to retrieve reviews for given dealership ID
+
+    :param dict: Dictionary of request parameters
+    :returns: List of reviews for dealership ID if dealer ID exists, error if otherwise
+
+""" 
+def main(dict):
+    try:
+        client = Cloudant.iam(
+            account_name=dict["COUCH_USERNAME"],
+            api_key=dict["IAM_API_KEY"],
+            connect=True,
+        )
+        dealer_id = int(dict['dealerId'])
+        
+        # Check if Dealership exists
+        if not dealership_exists(client, dealer_id):
+            return {"error": "dealerId does not exist", "code": 404}
+
+        # Get the Reviews
+        docs = get_reviews(client, dealer_id)
+    except CloudantException as ce:
+        print("unable to connect")
+        return {"error": ce, "code": 500}
+    except (requests.exceptions.RequestException, ConnectionResetError) as err:
+        print("connection error")
+        return {"error": err, "code": 500}
+
+    return {"reviews": docs.all()}
+
+"""
+    Check if dealership exists
+
+    :param client: Cloudant client object
+    :param dealer_id: Integer representing dealership ID
+    :returns: True if at least one dealership object is returned from DB
+
+"""   
+def dealership_exists(client, dealer_id):
+    fields = ["_id"]
+    docs = get_query_result_by_dealer_id(client, dealer_id, 'dealerships', fields)
+    return len(docs.all()) > 0
+    
+"""
+    Gets a list of reviews for a particular dealership
+
+    :param client: Cloudant client object
+    :param dealer_id: Integer representing dealership ID
+    :returns: List of reviews for dealership ID
+
+"""   
+def get_reviews(client, dealer_id):
+    fields = ["id","name","dealership","review","purchase","purchase_date","car_make","car_model","car_year"]
+    return get_query_result_by_dealer_id(client, dealer_id, 'reviews', fields)
+    
+"""
+    Wrapper function to fetch entries from database by dealership ID
+
+    :param client: Cloudant client object
+    :param dealer_id: Integer representing dealership ID
+    :param database: Name of database to fetch data from
+    :param fields: List of fields to fetch from docs
+    :returns: Query Result object with results from database
+
+"""       
+def get_query_result_by_dealer_id(client, dealer_id, database, fields):
+    db = client[database]
+    selector = {'id' if database=='dealerships' else 'dealership' : {'$eq': dealer_id}} 
+    return db.get_query_result(selector, fields=fields)
+    
+    
+    
+    
+    
+    
