@@ -37,12 +37,19 @@
         {% if reviews %}
             <div class="container-fluid">
                 {% for review in reviews %}
+                    {% if review.sentiment == 'positive' %}
+                    <div class="card bg-success">
+                    {% elif review.sentiment == 'negative' %}
+                    <div class="card bg-danger">
+                    {% else %}  
                     <div class="card">
+                    {% endif %}
                         <div class="card-body bg-light">
                             <h4 class="card-title">{{review.name}}</h2>
                             <p class="card-text">{{review.review}}</p>
                         </div>
                     </div>
+                    
                 {% endfor %}
 
             </div>
