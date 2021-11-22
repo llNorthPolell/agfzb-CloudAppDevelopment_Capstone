@@ -5,8 +5,8 @@ from requests.auth import HTTPBasicAuth
 
 # for local environment secrets
 import os
-from dotenv import load_dotenv 
-load_dotenv()
+# from dotenv import load_dotenv 
+# load_dotenv()
 
 def get_request(url, **kwargs):
     print('get_request kwargs: ' + str(kwargs))
