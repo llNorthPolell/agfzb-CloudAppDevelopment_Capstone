@@ -53,10 +53,10 @@ class CarModel(models.Model):
 
     def __str__(self):
         return "Name: " + self.name + "," + \
-               "Car_Make: " + self.car_make +"," + \
-               "Dealer_Id: " + self.dealer_id +"," + \
-               "Type: " + self.type + "," + \
-               "Year: " + self.year
+               "Car_Make: " + self.car_make.__str__() +"," + \
+               "Dealer_Id: " + str(self.dealer_id) +"," + \
+               "Type: " + str(self.type) + "," + \
+               "Year: " + str(self.year)
                    
 # <HINT> Create a plain Python class `CarDealer` to hold dealer data
 class CarDealer:
@@ -85,3 +85,35 @@ class CarDealer:
         return "Dealer name: " + self.full_name
 
 # <HINT> Create a plain Python class `DealerReview` to hold review data
+class DealerReview:
+    def __init__(self, id, dealership, name, purchase, review, purchase_date, car_make, car_model, car_year):
+        #dealership
+        self.dealership=dealership
+        #name
+        self.name=name
+        #purchase
+        self.purchase=purchase
+        #review
+        self.review=review
+        #purchase_date
+        self.purchase_date=purchase_date
+        #car_make
+        self.car_make=car_make
+        #car_model
+        self.car_model=car_model
+        #car_year
+        self.car_year=car_year
+        #sentiment
+        self.sentiment=self.NEUTRAL
+        #id
+        self.id=id
+
+    NEUTRAL = 'neutral'
+    NEGATIVE = 'negative'
+    POSITIVE = 'positive'
+
+    def __str__(self):
+        return "Review Id: " + str(self.id) + "," + \
+            "Dealer name: " + self.name +"," + \
+            "Review: " + self.review + "," + \
+            "Purchase: " + str(self.purchase)

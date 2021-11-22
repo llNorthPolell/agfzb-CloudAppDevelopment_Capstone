@@ -1,15 +1,6 @@
 import requests
 import json
-# import related models here
-from requests.auth import HTTPBasicAuth
-
-
-# Create a `get_request` to make HTTP GET requests
-# e.g., response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},
-#                                     auth=HTTPBasicAuth('apikey', api_key))
-import requests
-import json
-from .models import CarDealer
+from .models import CarDealer, DealerReview
 from requests.auth import HTTPBasicAuth
 
 def get_request(url, **kwargs):
@@ -37,7 +28,8 @@ def get_request(url, **kwargs):
 # def get_dealers_from_cf(url, **kwargs):
 # - Call get_request() with specified arguments
 # - Parse JSON results into a CarDealer object list
-def get_dealers_from_cf(url, **kwargs):
+def get_dealers_from_cf():
+    url = "https://fcfec9e2.us-south.apigw.appdomain.cloud/api/dealership"
     results = []
     # Call get_request with a URL parameter
     json_result = get_request(url)
@@ -56,7 +48,8 @@ def get_dealers_from_cf(url, **kwargs):
 
     return results
 
-def get_dealer_by_id_from_cf(url, dealerId):
+def get_dealer_by_id_from_cf(dealerId):
+    url = "https://fcfec9e2.us-south.apigw.appdomain.cloud/api/dealership"
     results = []
     # Call get_request with a URL parameter
     json_result = get_request(url, dealerId = dealerId)
@@ -73,9 +66,11 @@ def get_dealer_by_id_from_cf(url, dealerId):
                                    st=dealer["st"], zip=dealer["zip"])
             results.append(dealer_obj)
 
-    return results
+    
+    return results[0] if (len(results)>0) else results
 
-def get_dealer_by_state_from_cf(url, state):
+def get_dealer_by_state_from_cf(state):
+    url = "https://fcfec9e2.us-south.apigw.appdomain.cloud/api/dealership"
     results = []
     # Call get_request with a URL parameter
     json_result = get_request(url, state = state)
@@ -95,11 +90,28 @@ def get_dealer_by_state_from_cf(url, state):
     return results
 
 # Create a get_dealer_reviews_from_cf method to get reviews by dealer id from a cloud function
-# def get_dealer_by_id_from_cf(url, dealerId):
+# def get_dealer_reviews_from_cf(url, dealerId):
 # - Call get_request() with specified arguments
 # - Parse JSON results into a DealerView object list
+def get_dealer_reviews_from_cf(dealerId):
+    url = "https://fcfec9e2.us-south.apigw.appdomain.cloud/api/review"
+    results = []
+    # Call get_request with a URL parameter
+    json_result = get_request(url, dealerId = dealerId)
+    if json_result:
+        # Get the row list in JSON as dealers
+        reviews = json_result['reviews']
+        # For each dealer object
+        for review in reviews:
+            # Get its content in `reviews` object
+            # Create a DealerReview object with values in `reviews` object
+            dealer_review_obj = DealerReview(id=id, dealership=review['dealership'], name=review['name'], 
+                                        purchase=review['purchase'], review=review['review'], 
+                                        purchase_date=review['purchase_date'], car_make=review['car_make'], 
+                                        car_model=review['car_model'], car_year=review['car_year'])                           
+            results.append(dealer_review_obj)
 
-
+    return results
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
 # def analyze_review_sentiments(text):

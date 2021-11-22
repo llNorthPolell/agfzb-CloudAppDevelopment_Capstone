@@ -1,16 +1,15 @@
 <div id="dealer_table">
-    {% if dealer_names %}
+    {% if dealerships %}
     <table class="table">
         <thead class="table-dark">
             <tr>
                 <td>Dealer</td>
-                <td>Location</td>
             </tr>
         </thead>
         <tbody>
-            {% for dealer_name in dealer_names %}
+            {% for dealership in dealerships %}
             <tr>
-                <td>{{dealer_name}}</td>
+                <td><a href="{% url 'djangoapp:dealer_details' dealership.id %}">{{dealership.short_name}}</a></td>
             </tr>
             {% endfor %}
         </tbody>

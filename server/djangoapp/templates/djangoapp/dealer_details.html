@@ -1,18 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Dealership Review</title>
-    {% load static %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-</head>
+<div id="dealer_details">
+    <!-- Dealer Details -->
+    {% if dealer %}
+    <h2>{{dealer.full_name}}</h1>
+    <table class="table">
+        <tr>
+            <td>Address</td>
+            <td>{{dealer.address}}</td>
+        </tr>
+        <tr>
+            <td>City</td>
+            <td>{{dealer.city}}</td>
+        </tr> 
+        <tr>
+            <td>State</td>
+            <td>{{dealer.st}}</td>
+        </tr>   
+        <tr>
+            <td>ZIP</td>
+            <td>{{dealer.zip}}</td>
+        </tr>  
+        <tr>
+            <td>Latitude</td>
+            <td>{{dealer.lat}}</td>
+        </tr>
+        <tr>
+            <td>Longitude</td>
+            <td>{{dealer.long}}</td>
+        </tr>    
+    </table>
 
-    <body>
 
-    <!--Add a nav bar here -->
 
-    <!-- Add reviews as cards -->
+    <br/> <br />
+        <!-- Add reviews as cards -->
+        <h2>Reviews</h2>
+        {% if reviews %}
+            <div class="container-fluid">
+                {% for review in reviews %}
+                    <div class="card">
+                        <div class="card-body bg-light">
+                            <h4 class="card-title">{{review.name}}</h2>
+                            <p class="card-text">{{review.review}}</p>
+                        </div>
+                    </div>
+                {% endfor %}
 
-    </body>
-
-</html>
+            </div>
+        {% else %}
+            <p>No reviews available for this dealer.</p>
+        {% endif %}
+    {% endif %}
+</div>
