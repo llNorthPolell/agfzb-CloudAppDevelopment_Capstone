@@ -16,11 +16,6 @@ def get_request(url, **kwargs):
     print(kwargs)
     print("GET from {} ".format(url))
     try:
-        
-        kwargs['IAM_API_KEY']="xAA-8u5zojXpJ7eT3s_psNuDQqM1DN8Oy9SPCm6ASGXx"
-        kwargs['COUCH_URL']="https://12769f5e-ccd2-45df-90fd-17c74bf7883a-bluemix.cloudantnosqldb.appdomain.cloud"
-        kwargs['COUCH_USERNAME']="12769f5e-ccd2-45df-90fd-17c74bf7883a-bluemix"
-
         # Call get method of requests library with URL and parameters
         response = requests.get(url, headers={'Content-Type': 'application/json'},
                                     params=kwargs)

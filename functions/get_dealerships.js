@@ -16,7 +16,8 @@
      try {
          const fields = ["id","city","state","st","address","zip","lat","long","short_name","full_name"];
          
-         const selector = (params.state)? {st: {"$eq": params.state}} : {};
+         const selector = (params.state)? {st: {"$eq": params.state}} : 
+                            (params.dealerId)? {id: {"$eq": parseInt(params.dealerId)}}: {};
          const query = {selector: selector, fields: fields}
          
          let db = cloudant.db.use('dealerships')
