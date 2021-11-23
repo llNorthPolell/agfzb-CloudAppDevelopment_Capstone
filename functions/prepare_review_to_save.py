@@ -1,4 +1,6 @@
 import requests
+import uuid
+import datetime
 
 """
     Action function to validate and prepare request params 
@@ -27,13 +29,17 @@ def main(dict):
 def validate_params(dict):
     if 'review' not in dict:
         return {"error": "Input is not formatted correctly", "code": 500}
+    elif 'name' not in dict['review']:
+        return format_error('name')
     elif 'review' not in dict['review']:
         return format_error('review')
     elif 'purchase' not in dict['review']:
         return format_error('purchase field')
-    elif dict['review']['purchase']:
+    elif dict['review']['purchase']==True:
         if 'purchase_date' not in dict['review']: 
             return format_error('purchase date')
+        elif dict['review']['purchase_date'] > datetime.now():
+            return {"error": "Are you a time traveller?", "code": 500}
         elif 'car_make' not in dict['review']: 
             return format_error('car make')
         elif 'car_model' not in dict['review']:
@@ -41,7 +47,7 @@ def validate_params(dict):
         elif 'car_year' not in dict['review']:
             return format_error('car year')
             
-    return {"code": 200}
+    return {"code": 200 }
     
 """
     Wrapper function for formatting error messages wheen validate_params(dict) fails
@@ -61,16 +67,30 @@ def format_error(field):
 
 """       
 def prepare_doc_to_save(review):
-    return {
-        'doc': {
-            'id':review['id'],
-            'name': review['name'],
-            'dealership': review['dealership'],
-            'review': review['review'],
-            'purchase': review['purchase'],
-            'purchase_date': review['purchase_date'],
-            'car_make': review['car_make'],
-            'car_model': review['car_model'],
-            'car_year': review['car_year'],
+    if review['purchase'] == True:
+        return {
+            'doc': {
+                'id':uuid.uuid4(),
+                'name': review['name'],
+                'dealership': review['dealership'],
+                'create_time': datetime.datetime.utcnow().isoformat(),
+                'review': review['review'],
+                'purchase': review['purchase'],
+                'purchase_date': review['purchase_date'],
+                'car_make': review['car_make'],
+                'car_model': review['car_model'],
+                'car_year': review['car_year'],
+            }
         }
-    }
+    else:
+        return {
+            'doc': {
+                'id':str(uuid.uuid4()),
+                'name': review['name'],
+                'dealership': review['dealership'],
+                'create_time': datetime.datetime.utcnow().isoformat(),
+                'review': review['review'],
+                'purchase': review['purchase'],
+            }
+        }
+    

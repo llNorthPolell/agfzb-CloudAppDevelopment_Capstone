@@ -9,7 +9,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def get_request(url, **kwargs):
-    print('get_request kwargs: ' + str(kwargs))
     print("GET from {} ".format(url))
 
     try:
@@ -33,7 +32,29 @@ def get_request(url, **kwargs):
 
 # Create a `post_request` to make HTTP POST requests
 # e.g., response = requests.post(url, params=kwargs, json=payload)
+def post_request(url, json_payload, **kwargs): 
+    print('post_request kwargs: ' + str(kwargs))
+    print('post_request json_payload: ' + str(json_payload))
+    print("POST from {} ".format(url))
 
+    try:
+        if 'api_key' in kwargs:
+           response = requests.post(url, headers={'Content-Type': 'application/json'},
+                                        auth=HTTPBasicAuth('apikey', kwargs['api_key']), 
+                                        params=kwargs, json=json_payload)
+ 
+        else:
+            # Call get method of requests library with URL and parameters
+            response = requests.post(url, headers={'Content-Type': 'application/json'},
+                                        params=kwargs, json=json_payload)        
+    except:
+        # If any error occurs
+        print("Network exception occurred")
+
+    status_code = response.status_code
+    print("With status {} ".format(status_code))
+    json_data = json.loads(response.text)
+    return json_data
 
 # Create a get_dealers_from_cf method to get dealers from a cloud function
 # def get_dealers_from_cf(url, **kwargs):
@@ -117,10 +138,15 @@ def get_dealer_reviews_from_cf(dealerId):
             # Get its content in `reviews` object
             # Create a DealerReview object with values in `reviews` object
             dealer_review_obj = DealerReview(id=id, dealership=review['dealership'], name=review['name'], 
-                                        purchase=review['purchase'], review=review['review'], 
-                                        purchase_date=review['purchase_date'], car_make=review['car_make'], 
-                                        car_model=review['car_model'], car_year=review['car_year'])
-                                        
+                                        purchase=review['purchase'], review=review['review'])
+            if review['purchase']==True:                            
+                dealer_review_obj.set_purchase_details(purchase_date=review['purchase_date'], 
+                                        car_make=review['car_make'], car_model=review['car_model'], 
+                                        car_year=review['car_year'])
+            if 'create_time' in review:
+                dealer_review_obj.create_time=review['create_time']
+            else:
+                dealer_review_obj.create_time='Create Time Unknown'
 
             dealer_review_obj.sentiment = analyze_review_sentiments(dealer_review_obj.review)
             print ('Text: '+ dealer_review_obj.review +'|Sentiment: ' + dealer_review_obj.sentiment)
@@ -144,3 +170,14 @@ def analyze_review_sentiments(dealerreview):
 
     return DealerReview.NEUTRAL
 
+
+
+# Add Review 
+def add_dealer_review_to_cf(review_data, dealer_id):
+    url = os.environ['BASE_CLOUD_FUNCTIONS_URL']+'/review'
+
+    json_payload={'review': review_data}
+
+    response = post_request(url,json_payload=json_payload, dealerId=dealer_id)
+    print (str(response))
+    return response

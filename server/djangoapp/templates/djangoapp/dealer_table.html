@@ -4,12 +4,14 @@
         <thead class="table-dark">
             <tr>
                 <td>Dealer</td>
+                <td>State</td>
             </tr>
         </thead>
         <tbody>
             {% for dealership in dealerships %}
             <tr>
                 <td><a href="{% url 'djangoapp:dealer_details' dealership.id %}">{{dealership.short_name}}</a></td>
+                <td><p>{{dealership.st}}</p></td>
             </tr>
             {% endfor %}
         </tbody>

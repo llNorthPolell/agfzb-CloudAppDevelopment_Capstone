@@ -34,6 +34,10 @@
     <br/> <br />
         <!-- Add reviews as cards -->
         <h2>Reviews</h2>
+        {% if user.is_authenticated %}
+        {% include "./add_review.html" %}
+        {% endif %}
+
         {% if reviews %}
             <div class="container-fluid">
                 {% for review in reviews %}
@@ -44,17 +48,22 @@
                     {% else %}  
                     <div class="card">
                     {% endif %}
-                        <div class="card-body bg-light">
-                            <h4 class="card-title">{{review.name}}</h2>
-                            <p class="card-text">{{review.review}}</p>
-                        </div>
+
+                    <div class="card-body bg-light">
+                        <h4 class="card-title">{{review.name}}</h2>
+                        <p class="card-text">{{review.review}}</p>
+                        <p class="card-text text-muted">{{review.create_time}}</p>
+                    </div>
+                            
+
+
                     </div>
                     
                 {% endfor %}
-
             </div>
         {% else %}
             <p>No reviews available for this dealer.</p>
         {% endif %}
     {% endif %}
+        
 </div>

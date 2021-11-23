@@ -1,16 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    {% load static %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
+<div id="add_review" class="container-fluid">
+    <div class="card">
+        <form id="review_form" action="{% url 'djangoapp:add_review' dealer.id %}" method="post">
+            {% csrf_token %}
+            <br/>
+            <div class="mb-3">
+                <textarea id="review" type="text" placeholder="Please write your review here." class="form-control" name="review" form="review_form"></textarea>  
+            </div> 
+            <div class="mb-3">
+                <input id="purchase" type="checkbox" class="form-control-md" name="purchase" data-toggle="collapse" data-target="#review_collapsable_purchase_form" />
+                <label for="purchase" class="form-label">You made a purchase at this dealer </label>
+            </div> 
 
-</head>
-    <body>
-    <!--Add review form here -->
-    </body>
-</html>
+            <div id="review_collapsable_purchase_form" class="collapse">
+                <div class="mb-3">
+                    <label for="purchase_date" class="form-label">Date of Purchase</label>
+                    <input id="purchase_date" type="date" class="form-control" name="purchase_date"  />
+                </div> 
+                <div class="mb-3">
+                    <label for="car_make" class="form-label">Car Make</label>
+                    <input id="car_make" type="search" class="form-control" name="car_make"  />
+                </div> 
+                <div class="mb-3">
+                    <label for="car_model" class="form-label">Car Model</label>
+                    <input id="car_model" type="search" class="form-control" name="car_model"  />
+                </div> 
+                <div class="mb-3">
+                    <label for="car_year" class="form-label">Car Year</label>
+                    <input id="car_year" type="text" class="form-control" name="car_year"  />
+                </div> 
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary" type="button">Cancel</button>
+                <button class="btn btn-primary" type="submit">Save</button>
+            </div>        
+        </form>
+    </div>
+</div>

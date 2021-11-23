@@ -86,7 +86,7 @@ class CarDealer:
 
 # <HINT> Create a plain Python class `DealerReview` to hold review data
 class DealerReview:
-    def __init__(self, id, dealership, name, purchase, review, purchase_date, car_make, car_model, car_year):
+    def __init__(self, id, dealership, name, purchase, review):
         #dealership
         self.dealership=dealership
         #name
@@ -95,6 +95,12 @@ class DealerReview:
         self.purchase=purchase
         #review
         self.review=review
+        #sentiment
+        self.sentiment=self.NEUTRAL
+        #id
+        self.id=id
+
+    def set_purchase_details(self, purchase_date, car_make, car_model, car_year):
         #purchase_date
         self.purchase_date=purchase_date
         #car_make
@@ -103,10 +109,7 @@ class DealerReview:
         self.car_model=car_model
         #car_year
         self.car_year=car_year
-        #sentiment
-        self.sentiment=self.NEUTRAL
-        #id
-        self.id=id
+
 
     NEUTRAL = 'neutral'
     NEGATIVE = 'negative'

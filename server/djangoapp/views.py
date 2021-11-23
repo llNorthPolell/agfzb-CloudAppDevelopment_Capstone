@@ -2,9 +2,11 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse
 # from .models import related models
 from .restapis import get_dealers_from_cf, get_dealer_by_id_from_cf,\
-    get_dealer_by_state_from_cf, get_dealer_reviews_from_cf
+    get_dealer_by_state_from_cf, get_dealer_reviews_from_cf, \
+    add_dealer_review_to_cf
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -103,6 +105,28 @@ def get_dealer_details(request, dealer_id):
 
 
 # Create a `add_review` view to submit a review
-# def add_review(request, dealer_id):
-# ...
+def add_review(request, dealer_id):
+    context = {}
+    user = request.user
 
+    if not user:
+        return redirect('djangoapp:index')
+    
+    review_form = dict()
+    review_form['name'] =  \
+        user.first_name + user.last_name if (user.first_name and user.last_name) \
+        else user.username
+    review_form["dealership"] = dealer_id
+    
+    review_form['review'] = request.POST['review']
+
+    if 'purchase' in request.POST:
+        review_form['purchase'] = request.POST['purchase'] =='on'
+        review_form['purchase_date'] = request.POST['purchase_date']
+        review_form['car_make'] = request.POST['car_make']
+        review_form['car_model'] = request.POST['car_model']
+        review_form['car_year'] = request.POST['car_year']
+    else:
+        review_form['purchase'] = False
+    response = add_dealer_review_to_cf(review_form,dealer_id)
+    return HttpResponseRedirect(reverse(viewname='djangoapp:dealer_details', args=[dealer_id]))
