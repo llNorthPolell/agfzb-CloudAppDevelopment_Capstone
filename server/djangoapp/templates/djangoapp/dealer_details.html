@@ -42,20 +42,25 @@
             <div class="container-fluid">
                 {% for review in reviews %}
                     {% if review.sentiment == 'positive' %}
-                    <div class="card bg-success">
+                    <div class="card card mb-3 border-success">
                     {% elif review.sentiment == 'negative' %}
-                    <div class="card bg-danger">
+                    <div class="card card mb-3 border-danger">
                     {% else %}  
-                    <div class="card">
+                    <div class="card card mb-3">
                     {% endif %}
 
-                    <div class="card-body bg-light">
-                        <h4 class="card-title">{{review.name}}</h2>
-                        <p class="card-text">{{review.review}}</p>
-                        <p class="card-text text-muted">{{review.create_time}}</p>
-                    </div>
-                            
-
+                        <div class="row g-0">
+                          <div class="col-md-4">
+                            <img class="card-img-left" src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png" />
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title">{{review.name}}</h5>
+                              <p class="card-text">{{review.review}}</p>
+                              <p class="card-text"><small class="text-muted">{{review.create_time}}</small></p>
+                            </div>
+                          </div>
+                        </div>
 
                     </div>
                     

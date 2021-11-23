@@ -38,7 +38,8 @@ def validate_params(dict):
     elif dict['review']['purchase']==True:
         if 'purchase_date' not in dict['review']: 
             return format_error('purchase date')
-        elif dict['review']['purchase_date'] > datetime.now():
+        elif datetime.datetime.strptime(dict['review']['purchase_date'], 
+            '%Y-%m-%d') > datetime.datetime.now():
             return {"error": "Are you a time traveller?", "code": 500}
         elif 'car_make' not in dict['review']: 
             return format_error('car make')
@@ -70,7 +71,7 @@ def prepare_doc_to_save(review):
     if review['purchase'] == True:
         return {
             'doc': {
-                'id':uuid.uuid4(),
+                'id':str(uuid.uuid4()),
                 'name': review['name'],
                 'dealership': review['dealership'],
                 'create_time': datetime.datetime.utcnow().isoformat(),

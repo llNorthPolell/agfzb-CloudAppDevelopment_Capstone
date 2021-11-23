@@ -1,17 +1,25 @@
-<div id="dealer_table">
+<div id="dealer_table_div">
     {% if dealerships %}
-    <table class="table">
-        <thead class="table-dark">
+    <table id="dealer_table" class="table" data-filter-control="true">
+        <thead class="bg-dark text-light table-borderless">
             <tr>
-                <td>Dealer</td>
-                <td>State</td>
+                <th>ID</th>
+                <th>Dealer Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th data-field="state" data-filter-control="select">State</th>
+                <th>ZIP</th>
             </tr>
         </thead>
         <tbody>
             {% for dealership in dealerships %}
             <tr>
-                <td><a href="{% url 'djangoapp:dealer_details' dealership.id %}">{{dealership.short_name}}</a></td>
-                <td><p>{{dealership.st}}</p></td>
+                <td>{{dealership.id}}</td>
+                <td><a href="{% url 'djangoapp:dealer_details' dealership.id %}">{{dealership.full_name}}</a></td>
+                <td>{{dealership.address}}</td>
+                <td>{{dealership.city}}</td>
+                <td>{{dealership.st}}</td>
+                <td>{{dealership.zip}}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -19,3 +27,9 @@
     </table>
     {% endif %}
 </div>
+
+<script>
+    $(function() {
+      $('#dealer_table').bootstrapTable()
+    })
+</script>

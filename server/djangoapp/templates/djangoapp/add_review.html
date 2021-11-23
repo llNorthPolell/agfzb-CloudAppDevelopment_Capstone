@@ -13,20 +13,17 @@
 
             <div id="review_collapsable_purchase_form" class="collapse">
                 <div class="mb-3">
+                    <label for="car" class="form-label">What car have you purchased from this dealer? </label>
+                    <select name="car" id="car" class="form-select">
+                        {% for car in inventory %}
+                            <option selected value={{car.id}}>{{car.car_make.name}}-{{car.name}}-{{ car.year|date:"Y" }}</option>
+                        {% endfor %}
+                   </select>
+                </div>
+
+                <div class="mb-3">
                     <label for="purchase_date" class="form-label">Date of Purchase</label>
                     <input id="purchase_date" type="date" class="form-control" name="purchase_date"  />
-                </div> 
-                <div class="mb-3">
-                    <label for="car_make" class="form-label">Car Make</label>
-                    <input id="car_make" type="search" class="form-control" name="car_make"  />
-                </div> 
-                <div class="mb-3">
-                    <label for="car_model" class="form-label">Car Model</label>
-                    <input id="car_model" type="search" class="form-control" name="car_model"  />
-                </div> 
-                <div class="mb-3">
-                    <label for="car_year" class="form-label">Car Year</label>
-                    <input id="car_year" type="text" class="form-control" name="car_year"  />
                 </div> 
             </div>
             <div class="mb-3">

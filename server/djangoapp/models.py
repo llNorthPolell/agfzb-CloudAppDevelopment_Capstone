@@ -110,7 +110,7 @@ class DealerReview:
         #car_year
         self.car_year=car_year
 
-
+    create_time = ' Create Time Unknown'
     NEUTRAL = 'neutral'
     NEGATIVE = 'negative'
     POSITIVE = 'positive'

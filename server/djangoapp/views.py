@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
-# from .models import related models
+from .models import CarModel
 from .restapis import get_dealers_from_cf, get_dealer_by_id_from_cf,\
     get_dealer_by_state_from_cf, get_dealer_reviews_from_cf, \
     add_dealer_review_to_cf
@@ -97,10 +97,12 @@ def get_dealer_details(request, dealer_id):
         # Get reviews from the URL
         reviews = get_dealer_reviews_from_cf(dealer_id)
         dealer = get_dealer_by_id_from_cf(dealer_id)
+        inventory = CarModel.objects.filter(dealer_id=dealer_id)
         # Return a list of dealer short name
         context["contentBody"] = "dealer"
         context["dealer"] = dealer
         context["reviews"] = reviews
+        context["inventory"] = inventory
         return render(request, 'djangoapp/index.html', context)
 
 
@@ -123,10 +125,15 @@ def add_review(request, dealer_id):
     if 'purchase' in request.POST:
         review_form['purchase'] = request.POST['purchase'] =='on'
         review_form['purchase_date'] = request.POST['purchase_date']
-        review_form['car_make'] = request.POST['car_make']
-        review_form['car_model'] = request.POST['car_model']
-        review_form['car_year'] = request.POST['car_year']
+
+        car_id = request.POST['car']
+        car = get_object_or_404(CarModel,pk=car_id)
+
+        review_form['car_make'] = car.car_make.name
+        review_form['car_model'] = car.name
+        review_form['car_year'] = car.year.year
     else:
         review_form['purchase'] = False
+        
     response = add_dealer_review_to_cf(review_form,dealer_id)
     return HttpResponseRedirect(reverse(viewname='djangoapp:dealer_details', args=[dealer_id]))

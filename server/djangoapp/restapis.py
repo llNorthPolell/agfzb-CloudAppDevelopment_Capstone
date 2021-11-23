@@ -5,8 +5,8 @@ from requests.auth import HTTPBasicAuth
 
 # for local environment secrets
 import os
-# from dotenv import load_dotenv 
-# load_dotenv()
+from dotenv import load_dotenv 
+load_dotenv()
 
 def get_request(url, **kwargs):
     print("GET from {} ".format(url))
@@ -145,14 +145,12 @@ def get_dealer_reviews_from_cf(dealerId):
                                         car_year=review['car_year'])
             if 'create_time' in review:
                 dealer_review_obj.create_time=review['create_time']
-            else:
-                dealer_review_obj.create_time='Create Time Unknown'
 
             dealer_review_obj.sentiment = analyze_review_sentiments(dealer_review_obj.review)
             print ('Text: '+ dealer_review_obj.review +'|Sentiment: ' + dealer_review_obj.sentiment)
             results.append(dealer_review_obj)
 
-    return results
+    return sorted(results,key=lambda x: x.create_time, reverse=True)
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
 # def analyze_review_sentiments(text):
