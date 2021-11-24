@@ -1,0 +1,8 @@
+{% if messages %}
+<div class="container-fluid bg-danger">
+    {% for message in messages %}
+        <p class="text-light">{{ message }} </p>
+    {% endfor %}
+</div>
+<br/>
+{% endif %}

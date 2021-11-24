@@ -34,17 +34,20 @@ def contact(request):
     return render(request, 'djangoapp/index.html', context)
 # Create a `login_request` view to handle sign in request
 def login_request(request):
+    context = {}
     if request.method=="POST":
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request,user)
-            return redirect('djangoapp:index')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            messages.error(request, 'Invalid username/password...')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-    context = {}
     context["contentBody"]="home"
-    return render(request, 'djangoapp/index.html',context)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))        
 
 # Create a `logout_request` view to handle sign out request
 def logout_request(request):
@@ -73,9 +76,11 @@ def registration_request(request):
             last_name = request.POST['last_name']
             user= User.objects.create_user(username=username, password=password, email=email,first_name=first_name, last_name=last_name)   
             return redirect("djangoapp:index")
+        else:
+            messages.error(request, 'Username is already in use...')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-    context["contentBody"]="home"
-    return render(request, 'djangoapp/index.html', context)        
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))          
 
 
 # Update the `get_dealerships` view to render the index page with a list of dealerships
@@ -116,7 +121,7 @@ def add_review(request, dealer_id):
     
     review_form = dict()
     review_form['name'] =  \
-        user.first_name + user.last_name if (user.first_name and user.last_name) \
+        user.first_name +" " + user.last_name if (user.first_name and user.last_name) \
         else user.username
     review_form["dealership"] = dealer_id
     
