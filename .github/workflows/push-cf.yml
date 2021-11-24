@@ -10,7 +10,6 @@ env:
   IBM_CLOUD_ORG: northpole
   MANIFEST_NAME: manifest.yml
   IBM_CLOUD_API: ${{secrets.IBM_CLOUD_API_KEY}}
-  IAM_API_KEY: ${{secrets.IAM_API_KEY}}
   BASE_CLOUD_FUNCTIONS_URL: ${{secrets.BASE_CLOUD_FUNCTIONS_URL}}
   NLU_API_KEY: ${{secrets.NLU_API_KEY}}
   NLU_URL: ${{secrets.NLU_URL}}
