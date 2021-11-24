@@ -4,9 +4,9 @@ from .models import CarDealer, DealerReview
 from requests.auth import HTTPBasicAuth
 
 # for local environment secrets
-#import os
+import os
 #from dotenv import load_dotenv 
-load_dotenv()
+#load_dotenv()
 
 def get_request(url, **kwargs):
     print("GET from {} ".format(url))
