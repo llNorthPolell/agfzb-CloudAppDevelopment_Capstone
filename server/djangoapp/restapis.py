@@ -4,9 +4,9 @@ from .models import CarDealer, DealerReview
 from requests.auth import HTTPBasicAuth
 
 # for local environment secrets
-import os
+#import os
 #from dotenv import load_dotenv 
-#load_dotenv()
+load_dotenv()
 
 def get_request(url, **kwargs):
     print("GET from {} ".format(url))
@@ -64,7 +64,7 @@ def get_dealers_from_cf():
     url = os.environ['BASE_CLOUD_FUNCTIONS_URL']+"/dealership"
     results = []
     # Call get_request with a URL parameter
-    json_result = get_request(url,IAM_API_KEY=os.environ['IAM_API_KEY'])
+    json_result = get_request(url)
     if json_result:
         # Get the row list in JSON as dealers
         dealers = json_result['docs']
@@ -84,7 +84,7 @@ def get_dealer_by_id_from_cf(dealerId):
     url = os.environ['BASE_CLOUD_FUNCTIONS_URL']+"/dealership"
     results = []
     # Call get_request with a URL parameter
-    json_result = get_request(url, dealerId = dealerId,IAM_API_KEY=os.environ['IAM_API_KEY'])
+    json_result = get_request(url, dealerId = dealerId)
     if json_result:
         # Get the row list in JSON as dealers
         dealers = json_result['docs']
@@ -105,7 +105,7 @@ def get_dealer_by_state_from_cf(state):
     url = os.environ['BASE_CLOUD_FUNCTIONS_URL']+"/dealership"
     results = []
     # Call get_request with a URL parameter
-    json_result = get_request(url, state = state,IAM_API_KEY=os.environ['IAM_API_KEY'])
+    json_result = get_request(url, state = state)
     if json_result:
         # Get the row list in JSON as dealers
         dealers = json_result['docs']
@@ -129,7 +129,7 @@ def get_dealer_reviews_from_cf(dealerId):
     url = os.environ['BASE_CLOUD_FUNCTIONS_URL']+"/review"
     results = []
     # Call get_request with a URL parameter
-    json_result = get_request(url, dealerId = dealerId, IAM_API_KEY=os.environ['IAM_API_KEY'])
+    json_result = get_request(url, dealerId = dealerId)
     if json_result:
         # Get the row list in JSON as dealers
         reviews = json_result['reviews']
